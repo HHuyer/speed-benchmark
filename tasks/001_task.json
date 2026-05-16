@@ -1,0 +1,5 @@
+{
+  "id": "001",
+  "prompt": "Viết code Python tìm số nguyên tố lớn nhất trong mảng đầu vào. Đọc JSON từ stdin `{'input': [mảng]}` và in ra stdout JSON định dạng `{'answer': số}`.",
+  "input_data": {"input": [10, 15, 23, 50, 97, 100]}
+}
