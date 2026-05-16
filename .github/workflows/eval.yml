@@ -1,0 +1,33 @@
+name: Speed Benchmark Auto Run
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # Tạo nút bấm chạy thủ công trên web
+
+jobs:
+  run-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Kéo sàn đấu về (Public Repo)
+        uses: actions/checkout@v4
+
+      - name: 2. Bí mật kéo đáp án về (Private Repo)
+        uses: actions/checkout@v4
+        with:
+          repository: HHuyer/speed-benchmark-private  # Tên nick/Tên_repo_private của bạn
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: private_repo  # Bắt buộc là private_repo để khớp với code Python
+
+      - name: 3. Cài đặt Python và môi trường
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 4. Bắt đầu cuộc đua thời gian!
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python runner.py
